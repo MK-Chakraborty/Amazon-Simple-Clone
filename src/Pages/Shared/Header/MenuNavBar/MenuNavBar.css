@@ -1,0 +1,8 @@
+.nav-menu-bar {
+    background: #232f3e;
+}
+
+.menu-bar h5:hover {
+    color: rgb(230, 240, 145) !important;
+    font-weight: bold;
+}
