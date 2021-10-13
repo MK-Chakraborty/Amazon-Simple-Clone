@@ -50,7 +50,7 @@ const TopNavBar = () => {
                 <Col xs={6} sm={6} md={6} lg={1}>
                     <div className="d-flex align-items-center">
                         <div className="text-white fs-3 me-3">
-                            <i class="fas fa-shopping-cart"></i>
+                            <i className="fas fa-shopping-cart"></i>
                         </div>
                         <div className="text-start">
                             <p className="text-white mb-0">Cart</p>
