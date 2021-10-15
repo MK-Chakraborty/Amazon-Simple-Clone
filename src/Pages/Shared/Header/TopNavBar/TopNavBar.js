@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Col, Container, FormControl, InputGroup, Row, Button } from 'react-bootstrap';
+import useCart from '../../../../hooks/useCart';
+import useProducts from '../../../../hooks/useProducts';
 import logo from '../../../../images/logo.png'
 
 const TopNavBar = () => {
     const [country, setCountry] = useState('');
+
     useEffect(() => {
         fetch('https://extreme-ip-lookup.com/json/')
             .then(res => res.json())
@@ -12,7 +15,13 @@ const TopNavBar = () => {
             .catch((data, status) => {
                 console.log('Request failed:', data);
             });
-    }, [])
+    }, []);
+
+
+    const products = useProducts();
+    const [cart] = useCart(products);
+    const quantity = cart.reduce((previous, product) => previous + product.quantity, 0);
+    
 
     return (
         <Container fluid>
@@ -54,7 +63,7 @@ const TopNavBar = () => {
                         </div>
                         <div className="text-start">
                             <p className="text-white mb-0">Cart</p>
-                            <h5 className="text-white lh-sm fs-5">{0}</h5>
+                            <h5 className="text-white lh-sm fs-5">{quantity}</h5>
                         </div>
                     </div>
                 </Col>

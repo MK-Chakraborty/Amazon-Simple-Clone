@@ -1,17 +1,21 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
+import useCart from '../../hooks/useCart';
 import useProducts from '../../hooks/useProducts';
+import { addToDb } from '../../utilities/fakedb';
 import Cart from './Cart/Cart';
 import Product from './Product/Product';
 
 const Products = () => {
     const products = useProducts();
 
-    const [cart, setCart] = useState([]);
+    const [cart, setCart] = useCart(products);
+
 
     const addToCart = (product) => {
         const newCart = [...cart, product]
         setCart(newCart);
+        addToDb(product.key);
     }
 
     return (
