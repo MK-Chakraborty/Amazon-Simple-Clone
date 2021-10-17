@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { Col, Container, FormControl, InputGroup, Row, Button } from 'react-bootstrap';
+import { useHistory } from 'react-router';
+import useAuth from '../../../../hooks/useAuth'
 import useCart from '../../../../hooks/useCart';
 import useProducts from '../../../../hooks/useProducts';
 import logo from '../../../../images/logo.png'
 
 const TopNavBar = () => {
     const [country, setCountry] = useState('');
+    let history = useHistory();
+    const { user, logOut } = useAuth();
 
     useEffect(() => {
         fetch('https://extreme-ip-lookup.com/json/')
@@ -17,11 +21,14 @@ const TopNavBar = () => {
             });
     }, []);
 
+    const handleSignIn = () => {
+        history.push('/signin');
+    }
 
     const products = useProducts();
     const [cart] = useCart(products);
     const quantity = cart.reduce((previous, product) => previous + product.quantity, 0);
-    
+
 
     return (
         <Container fluid>
@@ -51,10 +58,22 @@ const TopNavBar = () => {
                     </InputGroup>
                 </Col>
                 <Col xs={6} sm={6} md={6} lg={1}>
-                    <div className="text-start">
-                        <p className="text-white mb-0">Hello, Sign In</p>
-                        <h5 className="text-white lh-sm fs-5">Log In Link</h5>
-                    </div>
+                    {
+                        user.email ? <div className="text-start">
+                            <p className="text-white mb-1">Hello, <span className="text-warning">{user.displayName}</span></p>
+                            <Button
+                                onClick={logOut}
+                                style={{ backgroundImage: "linear-gradient(#ffd772, #dfa000)", padding: "5px 30px" }}
+                                className="text-dark fw-bold border-0 d-block mb-2">Sign Out</Button>
+                        </div> :
+                            <div className="text-start">
+                                <p className="text-white mb-1">Hello, Sign In</p>
+                                <Button
+                                    onClick={handleSignIn}
+                                    style={{ backgroundImage: "linear-gradient(#ffd772, #dfa000)", padding: "5px 30px" }}
+                                    className="text-dark fw-bold border-0 d-block mb-2">Sign In</Button>
+                            </div>
+                    }
                 </Col>
                 <Col xs={6} sm={6} md={6} lg={1}>
                     <div className="d-flex align-items-center">
